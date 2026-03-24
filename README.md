@@ -2,7 +2,8 @@
 
 一个带前端、后端 API、数据库逻辑的全栈记账系统。
 
-仓库地址：<https://github.com/zzzzz9999/bookkeeping-app>
+- 仓库地址：<https://github.com/zzzzz9999/bookkeeping-app>
+- 最新线上地址：<https://bookkeeping-app-v2.vercel.app>
 
 ## Contributors
 
@@ -145,16 +146,19 @@ npm run db:studio   # 打开 Prisma Studio
 
 ## 部署说明
 
-当前项目已经接入 Vercel + Neon Postgres 思路。
+当前项目已经接入 **Vercel + Neon Postgres**，当前可用线上版本：
+
+- <https://bookkeeping-app-v2.vercel.app>
 
 如果你要自己重新部署：
 
 1. 导入 GitHub 仓库到 Vercel
-2. 绑定一个 Postgres 数据库（如 Neon）
-3. 配置环境变量：
+2. 新建一个干净的 Vercel Project（建议 Node 版本使用 **22.x**）
+3. 绑定一个 Postgres 数据库（如 Neon）
+4. 配置环境变量：
    - `POSTGRES_PRISMA_URL`
    - `DATABASE_URL`
-4. 重新部署
+5. 重新部署
 
 ## 备注
 
