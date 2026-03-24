@@ -6,7 +6,7 @@
 
 - Next.js 16 (App Router)
 - TypeScript + Tailwind CSS
-- Prisma + SQLite
+- Prisma + Neon Postgres
 - Recharts（图表）
 
 ## 功能

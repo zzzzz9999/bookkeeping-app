@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
@@ -39,6 +39,7 @@ type DashboardData = {
 export function BookkeepingDashboard({ data }: { data: DashboardData }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [mounted, setMounted] = useState(false);
   const [form, setForm] = useState({
     title: "",
     amount: "",
@@ -50,6 +51,10 @@ export function BookkeepingDashboard({ data }: { data: DashboardData }) {
   const [error, setError] = useState<string | null>(null);
 
   const recent = useMemo(() => data.transactions.slice(0, 10), [data.transactions]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,8 +137,10 @@ export function BookkeepingDashboard({ data }: { data: DashboardData }) {
           <h2 className="mb-4 text-lg font-semibold">支出分类（本月）</h2>
           {data.monthlyByCategory.length === 0 ? (
             <p className="text-sm text-zinc-500">暂无支出数据</p>
+          ) : !mounted ? (
+            <div className="h-72 animate-pulse rounded-lg bg-zinc-100" />
           ) : (
-            <div className="h-72">
+            <div className="h-72 min-w-0">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie data={data.monthlyByCategory} dataKey="total" nameKey="name" outerRadius={90} label>
@@ -151,19 +158,23 @@ export function BookkeepingDashboard({ data }: { data: DashboardData }) {
 
       <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
         <h2 className="mb-4 text-lg font-semibold">近 6 个月收支趋势</h2>
-        <div className="h-72">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data.trendMonths}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip formatter={(value) => `¥ ${Number(value ?? 0).toFixed(2)}`} />
-              <Legend />
-              <Bar dataKey="income" fill="#22c55e" name="收入" />
-              <Bar dataKey="expense" fill="#ef4444" name="支出" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        {!mounted ? (
+          <div className="h-72 animate-pulse rounded-lg bg-zinc-100" />
+        ) : (
+          <div className="h-72 min-w-0">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data.trendMonths}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip formatter={(value) => `¥ ${Number(value ?? 0).toFixed(2)}`} />
+                <Legend />
+                <Bar dataKey="income" fill="#22c55e" name="收入" />
+                <Bar dataKey="expense" fill="#ef4444" name="支出" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </section>
 
       <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
