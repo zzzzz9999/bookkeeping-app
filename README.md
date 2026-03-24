@@ -1,14 +1,9 @@
-# Bookkeeping App (Vibe Coding MVP)
+# Bookkeeping App
 
 一个带前端、后端 API、数据库逻辑的全栈记账系统。
 
 - 仓库地址：<https://github.com/zzzzz9999/bookkeeping-app>
 - 最新线上地址：<https://bookkeeping-app-v2.vercel.app>
-
-## Contributors
-
-- ide ter
-- zzzzz9999
 
 ## 技术栈
 
