@@ -11,11 +11,11 @@ const defaultCategories = [
   { name: "其他", color: "#6b7280", icon: "🧾" },
 ];
 
-export async function ensureSeedData() {
-  const count = await prisma.category.count();
+export async function ensureSeedData(userId: string) {
+  const count = await prisma.category.count({ where: { userId } });
   if (count > 0) return;
 
   await prisma.category.createMany({
-    data: defaultCategories,
+    data: defaultCategories.map((item) => ({ ...item, userId })),
   });
 }

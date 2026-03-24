@@ -3,17 +3,19 @@ import { startOfMonth, subMonths } from "date-fns";
 import { prisma } from "@/lib/prisma";
 import { ensureSeedData } from "@/lib/seed";
 
-export async function getDashboardData() {
-  await ensureSeedData();
+export async function getDashboardData(userId: string) {
+  await ensureSeedData(userId);
 
   const [categories, transactions] = await Promise.all([
     prisma.category.findMany({
+      where: { userId },
       orderBy: { createdAt: "asc" },
     }),
     prisma.transaction.findMany({
+      where: { userId },
       include: { category: true },
       orderBy: { occurredAt: "desc" },
-      take: 20,
+      take: 50,
     }),
   ]);
 

@@ -12,14 +12,29 @@ enum TransactionType {
   EXPENSE
 }
 
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  categories   Category[]
+  transactions Transaction[]
+}
+
 model Category {
   id           String        @id @default(cuid())
-  name         String        @unique
+  name         String
   color        String
   icon         String?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
+
+  @@unique([userId, name])
 }
 
 model Transaction {
@@ -32,5 +47,7 @@ model Transaction {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   categoryId  String
+  userId      String
   category    Category        @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

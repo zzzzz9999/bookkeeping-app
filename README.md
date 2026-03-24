@@ -16,6 +16,8 @@
 
 ## 当前功能
 
+- 用户注册 / 登录 / 退出登录
+- 每个用户拥有自己独立的账本数据
 - 新增收入 / 支出流水
 - 默认分类初始化
 - 最近流水列表
@@ -66,6 +68,7 @@ npm install
 ```env
 POSTGRES_PRISMA_URL="your_postgres_prisma_url"
 DATABASE_URL="your_postgres_url"
+AUTH_SECRET="change-this-to-a-long-random-string"
 ```
 
 如果你使用的是 Neon，通常可以直接把控制台提供的连接串填进去。

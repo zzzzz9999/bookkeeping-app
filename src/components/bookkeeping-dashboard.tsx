@@ -36,7 +36,7 @@ type DashboardData = {
   trendMonths: { month: string; income: number; expense: number }[];
 };
 
-export function BookkeepingDashboard({ data }: { data: DashboardData }) {
+export function BookkeepingDashboard({ data, userName }: { data: DashboardData; userName: string }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [mounted, setMounted] = useState(false);
@@ -85,11 +85,22 @@ export function BookkeepingDashboard({ data }: { data: DashboardData }) {
     startTransition(() => router.refresh());
   };
 
+  const logout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  };
+
   return (
     <main className="mx-auto w-full max-w-6xl p-6 md:p-10 space-y-6">
-      <header className="space-y-2">
-        <h1 className="text-3xl font-bold">记账系统</h1>
-        <p className="text-sm text-zinc-500">Vibe Coding MVP · Next.js + Prisma + SQLite</p>
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">记账系统</h1>
+          <p className="text-sm text-zinc-500">你好，{userName}。现在看到的是你自己的账本。</p>
+        </div>
+        <button onClick={logout} className="rounded-md border border-zinc-300 px-4 py-2 text-sm hover:bg-zinc-50">
+          退出登录
+        </button>
       </header>
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
