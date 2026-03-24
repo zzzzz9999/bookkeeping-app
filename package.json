@@ -2,6 +2,11 @@
   "name": "bookkeeping-app",
   "version": "0.1.0",
   "private": true,
+  "author": "zzzzz9999",
+  "contributors": [
+    "ide ter",
+    "zzzzz9999"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && prisma db push && next build",
